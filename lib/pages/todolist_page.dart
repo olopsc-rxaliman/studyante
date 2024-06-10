@@ -1,7 +1,7 @@
 import "package:animated_list_plus/transitions.dart";
 import "package:flutter/material.dart";
 import "package:animated_list_plus/animated_list_plus.dart";
-import "package:studyante/components/todolist_dialog.dart";
+import "package:studyante/components/todolist_add_modify_task_page.dart";
 import "package:studyante/components/todolist_item_widget.dart";
 import "package:studyante/components/todolist_widget.dart";
 import "package:studyante/hive/hive_todolist_functions.dart";
@@ -63,11 +63,10 @@ class _ToDoListPageState extends State<ToDoListPage> {
         ),
         backgroundColor: Colors.amber[800],
         onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) => ToDoListDialog(
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => ToDoListAddModifyTaskPage(
               onSubmit: () => refreshHiveData(),
-            ),
+            )),
           );
         },
       ),

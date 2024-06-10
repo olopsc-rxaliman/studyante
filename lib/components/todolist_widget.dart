@@ -26,13 +26,11 @@ class ToDoListWidget extends StatelessWidget {
           foregroundColor: Colors.black,
           onTap: navigateOnClick
           ? () {
-            Timer(const Duration(milliseconds: 400), () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) {
-                  return const ToDoListPage();
-                })
-              );
-            });
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) {
+                return const ToDoListPage();
+              })
+            );
           }
           : null,
           child: Padding(

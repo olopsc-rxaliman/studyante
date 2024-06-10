@@ -21,13 +21,11 @@ class DateTimeWidget extends StatelessWidget {
           backgroundColor: Colors.teal,
           foregroundColor: Colors.white,
           onTap: () {
-            Timer(const Duration(milliseconds: 400), () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) {
-                  return const DateTimePage();
-                }
-              ));
-            });
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) {
+                return const DateTimePage();
+              }
+            ));
           },
           child: Padding(
             padding: const EdgeInsets.all(12.0),

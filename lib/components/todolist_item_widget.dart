@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import "package:studyante/components/base_widget.dart";
-import "package:studyante/components/todolist_dialog.dart";
+import "package:studyante/components/todolist_add_modify_task_page.dart";
 import "package:studyante/hive/hive_constants.dart";
 import "package:studyante/hive/hive_todolist_functions.dart";
 
@@ -38,13 +38,12 @@ class ToDoListItemWidget extends StatelessWidget {
     return BaseWidget(
       backgroundColor: Colors.white,
       onLongPress: () {
-        showDialog(
-          context: context,
-          builder: (context) => ToDoListDialog(
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => ToDoListAddModifyTaskPage(
             onSubmit: onSelected,
             task: task,
           ),
-        );
+        ));
       },
       child: Row(
         children: [
