@@ -1,8 +1,11 @@
+import "package:animated_list_plus/transitions.dart";
 import "package:flutter/material.dart";
 import "package:animated_list_plus/animated_list_plus.dart";
+import "package:studyante/components/base_alertdialog.dart";
 import "package:studyante/components/todolist_add_modify_task_page.dart";
 import "package:studyante/components/todolist_item_widget.dart";
 import "package:studyante/components/todolist_widget.dart";
+import "package:studyante/hive/hive_constants.dart";
 import "package:studyante/hive/hive_todolist_functions.dart";
 
 class ToDoListPage extends StatefulWidget {
@@ -50,6 +53,37 @@ class _ToDoListPageState extends State<ToDoListPage> {
             fontWeight: FontWeight.bold,
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => BaseAlertDialog(
+                  onClickConfirm: () async {
+                    await ToDoListHiveFunctions.deleteTheseTasks(
+                      taskList.map((task) {
+                        if (task['status'] == TaskStatus.done.index) return task['key'];
+                      }).toList()
+                    );
+                    // ignore: use_build_context_synchronously
+                    Navigator.of(context).pop();
+                    refreshHiveData();
+                  },
+                  onClickReject: () => Navigator.of(context).pop(),
+                  actionButtonColor: Colors.amber[900],
+                  child: const Text(
+                    "Delete all tasks that marked as 'Done'?",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              );
+            },
+            icon: const Icon(
+              Icons.delete_outline,
+              color: Colors.black,
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         icon: const Icon(
@@ -94,14 +128,16 @@ class _ToDoListPageState extends State<ToDoListPage> {
               ),
             ).toList(),
             areItemsTheSame: (a, b) => a.key == b.key,
-            insertDuration: const Duration(milliseconds: 200),
-            itemBuilder: (context, animation, item, i) => SizeTransition(
-              sizeFactor: animation,
+            insertDuration: const Duration(milliseconds: 500),
+            itemBuilder: (context, animation, item, i) => SizeFadeTransition(
+              animation: animation,
+              curve: Curves.bounceIn,
               child: item,
             ),
-            removeDuration: const Duration(milliseconds: 200),
-            removeItemBuilder: (context, animation, item) => SizeTransition(
-              sizeFactor: animation,
+            removeDuration: const Duration(milliseconds: 500),
+            removeItemBuilder: (context, animation, item) => SizeFadeTransition(
+              animation: animation,
+              curve: Curves.bounceIn,
               child: item,
             ),
           ),

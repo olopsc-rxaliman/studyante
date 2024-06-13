@@ -37,5 +37,6 @@ class ToDoListHiveFunctions {
 
   // Delete
   static Future<void> deleteTask(int key) => todoListBox.delete(key);
+  static Future<void> deleteTheseTasks(List keys) => todoListBox.deleteAll(keys);
   static Future<void> deleteAllTasks() => todoListBox.deleteAll(todoListBox.keys);
 }

@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:studyante/components/base_alertdialog.dart";
 import "package:studyante/hive/hive_todolist_functions.dart";
 
 class ToDoListAddModifyTaskPage extends StatelessWidget {
@@ -35,44 +36,19 @@ class ToDoListAddModifyTaskPage extends StatelessWidget {
             onPressed: () {
               showDialog(
                 context: context,
-                builder: (context) => AlertDialog(
-                  actionsPadding: const EdgeInsets.all(10),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  content: const Text(
+                builder: (context) => BaseAlertDialog(
+                  onClickConfirm: () {
+                    Navigator.of(context).pop();
+                    ToDoListHiveFunctions.deleteTask(task!['key']);
+                    onSubmit();
+                    Navigator.of(context).pop();
+                  },
+                  onClickReject: () => Navigator.of(context).pop(),
+                  actionButtonColor: Colors.amber[900],
+                  child: const Text(
                     "Are you sure you want to delete this task?",
                     style: TextStyle(fontSize: 16),
                   ),
-                  actions: [
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        foregroundColor: Colors.amber[900],
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text(
-                        "No",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        foregroundColor: Colors.amber[900],
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        ToDoListHiveFunctions.deleteTask(task!['key']);
-                        onSubmit();
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text(
-                        "Yes",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                  ],
                 ),
               );
             },

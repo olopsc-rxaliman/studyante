@@ -193,7 +193,10 @@ class ToDoListItemWidget extends StatelessWidget {
             ),
           ],
         ),
-        title: Text(task['task']),
+        title: Text(
+          task['task'],
+          style: const TextStyle(fontSize: 15),
+        ),
         contentPadding: const EdgeInsets.only(
           left: 5,
           right: 18,
