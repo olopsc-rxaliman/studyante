@@ -28,6 +28,61 @@ class ToDoListAddModifyTaskPage extends StatelessWidget {
             fontSize: 25,
           ),
         ),
+        actions: [
+          task == null
+          ? const SizedBox()
+          : IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  actionsPadding: const EdgeInsets.all(10),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  content: const Text(
+                    "Are you sure you want to delete this task?",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  actions: [
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.amber[900],
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text(
+                        "No",
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.amber[900],
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        ToDoListHiveFunctions.deleteTask(task!['key']);
+                        onSubmit();
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text(
+                        "Yes",
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+            icon: const Icon(
+              Icons.delete,
+              color: Colors.black,
+            ),
+            tooltip: "Delete",
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.amber[700],
@@ -113,23 +168,6 @@ class ToDoListAddModifyTaskPage extends StatelessWidget {
                   ),
                 ),
                 textInputAction: TextInputAction.newline,
-              ),
-              const SizedBox(height: 10),
-              task == null
-              ? const SizedBox()
-              : TextButton.icon(
-                label: const Text("Delete"),
-                icon: const Icon(Icons.delete),
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.amber,
-                  foregroundColor: Colors.black,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
-                ),
-                onPressed: () {
-                  ToDoListHiveFunctions.deleteTask(task!['key']);
-                  Navigator.of(context).pop();
-                  onSubmit();
-                },
               ),
             ],
           ),

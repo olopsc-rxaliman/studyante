@@ -1,4 +1,3 @@
-import "package:animated_list_plus/transitions.dart";
 import "package:flutter/material.dart";
 import "package:animated_list_plus/animated_list_plus.dart";
 import "package:studyante/components/todolist_add_modify_task_page.dart";
@@ -95,14 +94,14 @@ class _ToDoListPageState extends State<ToDoListPage> {
               ),
             ).toList(),
             areItemsTheSame: (a, b) => a.key == b.key,
-            itemBuilder: (context, animation, item, i) => SizeFadeTransition(
-              sizeFraction: 0.7,
-              curve: Curves.easeInOut,
-              animation: animation,
+            insertDuration: const Duration(milliseconds: 200),
+            itemBuilder: (context, animation, item, i) => SizeTransition(
+              sizeFactor: animation,
               child: item,
             ),
-            removeItemBuilder: (context, animation, item) => FadeTransition(
-              opacity: animation,
+            removeDuration: const Duration(milliseconds: 200),
+            removeItemBuilder: (context, animation, item) => SizeTransition(
+              sizeFactor: animation,
               child: item,
             ),
           ),
