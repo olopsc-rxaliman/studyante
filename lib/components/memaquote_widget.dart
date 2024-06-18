@@ -16,24 +16,20 @@ class MemaQuoteWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseWidget(
       backgroundColor: Colors.deepOrange,
-      foregroundColor: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Row(
-          children: [
-            const Icon(
-              Icons.format_quote,
+      child: Row(
+        children: [
+          const Icon(
+            Icons.format_quote,
+            color: Colors.white,
+          ),
+          const SizedBox(width: 5),
+          Text(
+            memaQuotes[Random().nextInt(memaQuotes.length)],
+            style: const TextStyle(
               color: Colors.white,
             ),
-            const SizedBox(width: 5),
-            Text(
-              memaQuotes[Random().nextInt(memaQuotes.length)],
-              style: const TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

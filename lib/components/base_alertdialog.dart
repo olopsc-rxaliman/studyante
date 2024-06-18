@@ -29,7 +29,7 @@ class BaseAlertDialog extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       contentPadding: const EdgeInsets.only(
-        top: 15,
+        top: 20,
         left: 20,
         right: 20,
         bottom: 10,

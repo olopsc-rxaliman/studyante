@@ -37,6 +37,7 @@ class ToDoListItemWidget extends StatelessWidget {
     );
     return BaseWidget(
       backgroundColor: Colors.white,
+      padding: EdgeInsets.zero,
       onLongPress: () {
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => ToDoListAddModifyTaskPage(
@@ -53,6 +54,7 @@ class ToDoListItemWidget extends StatelessWidget {
           ),
           backgroundColor: Colors.white,
           child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
             child: IntrinsicHeight(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -198,10 +200,14 @@ class ToDoListItemWidget extends StatelessWidget {
           style: const TextStyle(fontSize: 15),
         ),
         contentPadding: const EdgeInsets.only(
-          left: 5,
-          right: 18,
+          top: 0,
+          left: 0,
+          right: 8,
+          bottom: 0,
+          // left: 5,
+          // right: 18,
         ),
-        horizontalTitleGap: 5,
+        horizontalTitleGap: 0,
       ),
     );
   }

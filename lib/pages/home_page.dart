@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
 import "package:studyante/components/datetime_widget.dart";
+import "package:studyante/components/expensestracker_widget.dart";
 import "package:studyante/components/memaquote_widget.dart";
+import "package:studyante/components/routinebuilder_widget.dart";
 import "package:studyante/components/todolist_widget.dart";
 
 class HomePage extends StatelessWidget {
@@ -27,9 +29,12 @@ class HomePage extends StatelessWidget {
           MemaQuoteWidget(),
           DateTimeWidget(),
           ToDoListWidget(
+            title: "To-do List",
             widgetColor: Colors.amber,
             navigateOnClick: true,
           ),
+          RoutineBuilderWidget(),
+          ExpensesTrackerWidget(),
         ],
       ),
     );

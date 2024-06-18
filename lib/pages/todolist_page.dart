@@ -72,7 +72,7 @@ class _ToDoListPageState extends State<ToDoListPage> {
                   onClickReject: () => Navigator.of(context).pop(),
                   actionButtonColor: Colors.amber[900],
                   child: const Text(
-                    "Delete all tasks that marked as 'Done'?",
+                    "Delete all tasks marked as done?",
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
