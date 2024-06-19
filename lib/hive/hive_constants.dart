@@ -7,3 +7,10 @@ enum TaskStatus {
   active,
   done,
 }
+
+// Routine Type Enumeration
+enum RoutineType {
+  misc,
+  school,
+  home,
+}
