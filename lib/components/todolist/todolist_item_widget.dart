@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import "package:studyante/components/base_widget.dart";
-import "package:studyante/components/todolist_add_modify_task_page.dart";
+import "package:studyante/components/todolist/todolist_add_modify_task_page.dart";
 import "package:studyante/hive/hive_constants.dart";
 import "package:studyante/hive/hive_todolist_functions.dart";
 

@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:intl/intl.dart";
-import "package:studyante/components/routinebuilder_add_modify_routine.dart";
-import "package:studyante/components/routinebuilder_tabview.dart";
+import "package:studyante/components/routinebuilder/routinebuilder_add_modify_routine.dart";
+import "package:studyante/components/routinebuilder/routinebuilder_tabview.dart";
 import "package:studyante/hive/hive_constants.dart";
 
 class RoutineBuilderPage extends StatefulWidget {
@@ -59,7 +59,7 @@ class _RoutineBuilderPageState extends State<RoutineBuilderPage> {
           bottom: TabBar(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             dividerColor: Colors.transparent,
-            overlayColor: WidgetStateProperty.all(Colors.transparent),
+            overlayColor: WidgetStateProperty.all(Colors.black.withOpacity(0.1)),
             indicatorColor: Colors.white,
             labelColor: Colors.white,
             labelPadding: EdgeInsets.zero,
@@ -100,8 +100,14 @@ class _RoutineBuilderPageState extends State<RoutineBuilderPage> {
         ),
         floatingActionButton: FloatingActionButton.extended(
           backgroundColor: Colors.white,
-          icon: const Icon(Icons.add),
-          label: const Text("Add Routine"),
+          icon: const Icon(
+            Icons.add,
+            color: Colors.black,
+          ),
+          label: const Text(
+            "Add Routine",
+            style: TextStyle(color: Colors.black),
+          ),
           onPressed: () => Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => const RoutineBuilderAddModifyRoutinePage(),

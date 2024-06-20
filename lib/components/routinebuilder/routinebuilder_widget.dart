@@ -91,7 +91,7 @@ class RoutineBuilderWidget extends StatelessWidget {
                           overflow: TextOverflow.fade,
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 18,
+                            fontSize: 14,
                           ),
                         ),
                         Text(

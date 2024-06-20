@@ -76,6 +76,10 @@ class RoutineBuilderAddModifyRoutinePage extends StatelessWidget {
               ),
               const SizedBox(height: 20.0),
               const DropdownMenu(
+                menuStyle: MenuStyle(
+                  backgroundColor: WidgetStatePropertyAll(Colors.white),
+                  padding: WidgetStatePropertyAll(EdgeInsets.symmetric(vertical: 12)),
+                ),
                 expandedInsets: EdgeInsets.zero,
                 label: Text("Type"),
                 initialSelection: RoutineType.misc,
