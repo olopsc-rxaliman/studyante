@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:studyante/components/datetime/datetime_widget.dart";
 import "package:studyante/components/expensestracker/expensestracker_widget.dart";
+import "package:studyante/components/journotes/journotes_widget.dart";
 import "package:studyante/components/memaquote/memaquote_widget.dart";
 import "package:studyante/components/routinebuilder/routinebuilder_widget.dart";
 import "package:studyante/components/todolist/todolist_widget.dart";
@@ -35,6 +36,7 @@ class HomePage extends StatelessWidget {
           ),
           RoutineBuilderWidget(),
           ExpensesTrackerWidget(),
+          JournotesWidget(),
         ],
       ),
     );
