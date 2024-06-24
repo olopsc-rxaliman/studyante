@@ -44,6 +44,7 @@ class _RoutineBuilderPageState extends State<RoutineBuilderPage> {
       length: 7,
       child: Scaffold(
         backgroundColor: Colors.indigo,
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: Colors.indigo,
           foregroundColor: Colors.white,

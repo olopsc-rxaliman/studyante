@@ -148,6 +148,7 @@ class ToDoListItemWidget extends StatelessWidget {
       ),
       child: ListTile(
         titleAlignment: ListTileTitleAlignment.titleHeight,
+        dense: true,
         leading: PopupMenuButton(
           tooltip: "Set Status",
           color: Colors.white,

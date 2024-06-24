@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:studyante/hive/hive_constants.dart";
 
-class RoutineBuilderAddModifyRoutinePage extends StatelessWidget {
+class RoutineBuilderAddModifyRoutinePage extends StatefulWidget {
   final Map? routine;
 
   const RoutineBuilderAddModifyRoutinePage({
@@ -10,10 +10,88 @@ class RoutineBuilderAddModifyRoutinePage extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
-    TextEditingController nameInputController = TextEditingController();
+  State<RoutineBuilderAddModifyRoutinePage> createState() => _RoutineBuilderAddModifyRoutinePageState();
+}
 
+class _RoutineBuilderAddModifyRoutinePageState extends State<RoutineBuilderAddModifyRoutinePage> {
+  late final Map? routine;
+  late final TextEditingController nameInputController;
+  late final TextEditingController routineInputController;
+  late final GlobalKey<FormState> formKey;
+  late bool isErrorOnSchedule;
+  var selectedTime;
+
+  Map scheduleOn = {
+    'sunday': false,
+    'monday': false,
+    'tuesday': false,
+    'wednesday': false,
+    'thursday': false,
+    'friday': false,
+    'saturday': false,
+  };
+  
+  @override
+  void initState() {
+    super.initState();
+    routine = widget.routine;
+    nameInputController = TextEditingController();
+    routineInputController = TextEditingController();
+    formKey = GlobalKey<FormState>();
+    isErrorOnSchedule = false;
+  }
+
+  @override
+  void dispose() {
+    nameInputController.dispose();
+    routineInputController.dispose();
+    super.dispose();
+  }
+  
+  bool selectedAtleastOneDay() => scheduleOn.keys.where(
+    (element) => scheduleOn[element] == true
+  ).isNotEmpty;
+
+  Widget textInsideCircle({required String text, required String dayOfWeek}) {
+    return InkWell(
+      customBorder: const CircleBorder(),
+      splashFactory: InkRipple.splashFactory,
+      borderRadius: BorderRadius.circular(10),
+      highlightColor: Colors.black.withOpacity(0.05),
+      splashColor: Colors.black.withOpacity(0.1),
+      onTap: () {
+        setState(() {
+          scheduleOn[dayOfWeek] = !scheduleOn[dayOfWeek];
+        });
+      },
+      child: Ink(
+        decoration: ShapeDecoration(
+          shape: CircleBorder(
+            side: BorderSide(
+              strokeAlign: BorderSide.strokeAlignInside,
+              color: scheduleOn[dayOfWeek] == true ? Colors.transparent : Colors.black,
+              width: 1.2,
+            ),
+          ),
+          color: scheduleOn[dayOfWeek] == true ? Colors.indigo : null,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            text,
+            style: TextStyle(
+              color: scheduleOn[dayOfWeek] == true ? Colors.white : Colors.black,
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -30,8 +108,13 @@ class RoutineBuilderAddModifyRoutinePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.indigo,
         onPressed: () {
+          setState(() {
+            isErrorOnSchedule = !selectedAtleastOneDay();
+          });
           if (formKey.currentState!.validate()) {
-            // TODO: Implement submission of routine
+            if (isErrorOnSchedule == false) {
+              print("Accepted");
+            }
           }
         },
         child: const Icon(
@@ -67,23 +150,28 @@ class RoutineBuilderAddModifyRoutinePage extends StatelessWidget {
                     )
                   ),
                 ),
-                autofocus: true,
-                textInputAction: TextInputAction.next,
+                autofocus: false,
+                textInputAction: TextInputAction.done,
+                onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
                 validator: (value) {
                   if (value == null || value.toString().isEmpty) return "This field is required";
                   return null;
                 },
               ),
               const SizedBox(height: 20.0),
-              const DropdownMenu(
-                menuStyle: MenuStyle(
+              DropdownMenu(
+                controller: routineInputController,
+                menuStyle: const MenuStyle(
                   backgroundColor: WidgetStatePropertyAll(Colors.white),
                   padding: WidgetStatePropertyAll(EdgeInsets.symmetric(vertical: 12)),
                 ),
                 expandedInsets: EdgeInsets.zero,
-                label: Text("Type"),
+                label: const Text(
+                  "Time",
+                  style: TextStyle(color: Colors.black),
+                ),
                 initialSelection: RoutineType.misc,
-                dropdownMenuEntries: [
+                dropdownMenuEntries: const [
                   DropdownMenuEntry(
                     value: RoutineType.misc,
                     leadingIcon: Icon(Icons.refresh),
@@ -100,6 +188,66 @@ class RoutineBuilderAddModifyRoutinePage extends StatelessWidget {
                     label: "House Chore",
                   ),
                 ],
+              ),
+              const SizedBox(height: 20.0),
+              InputDecorator(
+                decoration: InputDecoration(
+                  label: const Text(
+                    "Schedule every",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  border: const OutlineInputBorder(),
+                  errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.red.shade900,
+                      width: 1,
+                    ),
+                  ),
+                  errorText: isErrorOnSchedule ? "Select at least one day in a week" : null,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    textInsideCircle(text: "Sun", dayOfWeek: 'sunday'),
+                    textInsideCircle(text: "Mon", dayOfWeek: 'monday'),
+                    textInsideCircle(text: "Tue", dayOfWeek: 'tuesday'),
+                    textInsideCircle(text: "Wed", dayOfWeek: 'wednesday'),
+                    textInsideCircle(text: "Thu", dayOfWeek: 'thursday'),
+                    textInsideCircle(text: "Fri", dayOfWeek: 'friday'),
+                    textInsideCircle(text: "Sat", dayOfWeek: 'saturday'),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20.0),
+              InputDecorator(
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  label: Text(
+                    "Time",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+                child: ListTile(
+                  minTileHeight: 30,
+                  minVerticalPadding: 0,
+                  contentPadding: EdgeInsets.zero,
+                  horizontalTitleGap: 10,
+                  title: const Text("--:--"),
+                  leading: IconButton(
+                    onPressed: () async {
+                      showDialog(
+                        context: context,
+                        builder: (context) => TimePickerDialog(
+                          initialTime: TimeOfDay.now(),    
+                        ),
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.watch_later,
+                      color: Colors.indigo,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
