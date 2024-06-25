@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:intl/intl.dart";
 import "package:studyante/components/routinebuilder/routinebuilder_add_modify_routine.dart";
 import "package:studyante/components/routinebuilder/routinebuilder_tabview.dart";
-import "package:studyante/hive/hive_constants.dart";
+import "package:studyante/hive/hive_routinebuilder_functions.dart";
 
 class RoutineBuilderPage extends StatefulWidget {
   const RoutineBuilderPage({super.key});
@@ -37,6 +37,8 @@ class _RoutineBuilderPageState extends State<RoutineBuilderPage> {
 
   @override
   Widget build(BuildContext context) {
+    print("ROUTINES: ${RoutineBuilderHiveFunctions.getAllRoutines()}");
+
     int dayOfWeekIndex = dayOfWeekAbbr.indexOf(currentDayOfWeekAbbr);
 
     return DefaultTabController(
@@ -57,6 +59,21 @@ class _RoutineBuilderPageState extends State<RoutineBuilderPage> {
               fontWeight: FontWeight.bold,
             ),
           ),
+          actions: [
+            IconButton(
+              onPressed: () async {
+                await RoutineBuilderHiveFunctions.deleteAllRoutines();
+                // ignore: use_build_context_synchronously
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Deleted all routines"))
+                );
+              },
+              icon: const Icon(
+                Icons.delete,
+                color: Colors.white,
+              ),
+            ),
+          ],
           bottom: TabBar(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             dividerColor: Colors.transparent,
@@ -77,27 +94,15 @@ class _RoutineBuilderPageState extends State<RoutineBuilderPage> {
         ),
         body: TabBarView(
           physics: const BouncingScrollPhysics(),
-          children: List.generate(
-            7,
-            (index) => RoutineBuilderTabView(
-            routineList: [
-              {'name': "Routine 5", 'time': "9:00am - 10:00am", 'type': RoutineType.misc.index},
-              {'name': "Routine 1", 'time': "9:00am - 10:00am", 'type': RoutineType.misc.index},
-              {'name': "Routine 2", 'time': "9:00am - 10:00am", 'type': RoutineType.school.index},
-              {'name': "Routine 3", 'time': "9:00am - 10:00am", 'type': RoutineType.home.index},
-              {'name': "Routine 4", 'time': "9:00am - 10:00am", 'type': RoutineType.misc.index},
-              {'name': "Routine 2", 'time': "9:00am - 10:00am", 'type': RoutineType.school.index},
-              {'name': "Routine 3", 'time': "9:00am - 10:00am", 'type': RoutineType.home.index},
-              {'name': "Routine 3", 'time': "9:00am - 10:00am", 'type': RoutineType.home.index},
-              {'name': "Routine 3", 'time': "9:00am - 10:00am", 'type': RoutineType.home.index},
-              {'name': "Routine 3", 'time': "9:00am - 10:00am", 'type': RoutineType.home.index},
-              {'name': "Routine 2", 'time': "9:00am - 10:00am", 'type': RoutineType.school.index},
-              {'name': "Routine 3", 'time': "9:00am - 10:00am", 'type': RoutineType.home.index},
-              {'name': "Routine 3", 'time': "9:00am - 10:00am", 'type': RoutineType.home.index},
-              {'name': "Routine 2", 'time': "9:00am - 10:00am", 'type': RoutineType.school.index},
-              {'name': "Routine 3", 'time': "9:00am - 10:00am", 'type': RoutineType.home.index},
-            ],
-          )),
+          children: [
+            RoutineBuilderTabView(routineList: RoutineBuilderHiveFunctions.getRoutinesFrom(dayOfWeek: 'sunday')),
+            RoutineBuilderTabView(routineList: RoutineBuilderHiveFunctions.getRoutinesFrom(dayOfWeek: 'monday')),
+            RoutineBuilderTabView(routineList: RoutineBuilderHiveFunctions.getRoutinesFrom(dayOfWeek: 'tuesday')),
+            RoutineBuilderTabView(routineList: RoutineBuilderHiveFunctions.getRoutinesFrom(dayOfWeek: 'wednesday')),
+            RoutineBuilderTabView(routineList: RoutineBuilderHiveFunctions.getRoutinesFrom(dayOfWeek: 'thursday')),
+            RoutineBuilderTabView(routineList: RoutineBuilderHiveFunctions.getRoutinesFrom(dayOfWeek: 'friday')),
+            RoutineBuilderTabView(routineList: RoutineBuilderHiveFunctions.getRoutinesFrom(dayOfWeek: 'saturday')),
+          ],
         ),
         floatingActionButton: FloatingActionButton.extended(
           backgroundColor: Colors.white,

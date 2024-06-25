@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:studyante/hive/hive_constants.dart";
 
 class RoutineBuilderTabView extends StatelessWidget {
-  final List<Map> routineList;
+  final List routineList;
 
   const RoutineBuilderTabView({
     super.key,
@@ -19,7 +19,7 @@ class RoutineBuilderTabView extends StatelessWidget {
         Map routine = routineList[index];
 
         return Card(
-          color: routine['name'] == "Routine 5" ? Colors.yellow : Colors.white,
+          color: routine['name'] == "Gold" ? Colors.yellow : Colors.white,
           child: ListTile(
             leading: Icon(
               routine['type'] == RoutineType.misc.index ? Icons.refresh
@@ -29,7 +29,7 @@ class RoutineBuilderTabView extends StatelessWidget {
               color: Colors.black,
             ),
             title: Text(routine['name']),
-            subtitle: Text(routine['time']),
+            subtitle: Text("${routine['startTime']} - ${routine['endTime']}"),
           ),
         );
       }

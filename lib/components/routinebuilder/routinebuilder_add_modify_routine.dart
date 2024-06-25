@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:studyante/hive/hive_constants.dart";
+import "package:studyante/hive/hive_routinebuilder_functions.dart";
 
 class RoutineBuilderAddModifyRoutinePage extends StatefulWidget {
   final Map? routine;
@@ -19,7 +20,10 @@ class _RoutineBuilderAddModifyRoutinePageState extends State<RoutineBuilderAddMo
   late final TextEditingController routineInputController;
   late final GlobalKey<FormState> formKey;
   late bool isErrorOnSchedule;
-  var selectedTime;
+  late bool isErrorOnStartTime;
+  late bool isErrorOnEndTime;
+  late String startTime;
+  late String endTime;
 
   Map scheduleOn = {
     'sunday': false,
@@ -39,6 +43,10 @@ class _RoutineBuilderAddModifyRoutinePageState extends State<RoutineBuilderAddMo
     routineInputController = TextEditingController();
     formKey = GlobalKey<FormState>();
     isErrorOnSchedule = false;
+    isErrorOnStartTime = false;
+    isErrorOnEndTime = false;
+    startTime = "--:--";
+    endTime = "--:--";
   }
 
   @override
@@ -107,13 +115,22 @@ class _RoutineBuilderAddModifyRoutinePageState extends State<RoutineBuilderAddMo
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.indigo,
-        onPressed: () {
+        onPressed: () async {
           setState(() {
             isErrorOnSchedule = !selectedAtleastOneDay();
+            isErrorOnStartTime = startTime == '--:--';
+            isErrorOnEndTime = endTime == '--:--';
           });
           if (formKey.currentState!.validate()) {
-            if (isErrorOnSchedule == false) {
-              print("Accepted");
+            if (isErrorOnSchedule == false && isErrorOnStartTime == false && isErrorOnEndTime == false) {
+              RoutineBuilderHiveFunctions.addRoutine(
+                name: nameInputController.text,
+                type: routineInputController.text, 
+                scheduleEvery: scheduleOn, 
+                startTime: startTime, 
+                endTime: endTime,
+              );
+              Navigator.of(context).pop();
             }
           }
         },
@@ -136,10 +153,8 @@ class _RoutineBuilderAddModifyRoutinePageState extends State<RoutineBuilderAddMo
                 controller: nameInputController,
                 cursorColor: Colors.black,
                 decoration: const InputDecoration(
-                  label: Text(
-                    "Name",
-                    style: TextStyle(color: Colors.black),
-                  ),
+                  label: Text("Name"),
+                  floatingLabelStyle: TextStyle(color: Colors.black),
                   border: OutlineInputBorder(),
                   fillColor: Colors.white,
                   filled: true,
@@ -154,7 +169,7 @@ class _RoutineBuilderAddModifyRoutinePageState extends State<RoutineBuilderAddMo
                 textInputAction: TextInputAction.done,
                 onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
                 validator: (value) {
-                  if (value == null || value.toString().isEmpty) return "This field is required";
+                  if (value == null || value.toString().isEmpty) return "Enter the routine name";
                   return null;
                 },
               ),
@@ -167,7 +182,7 @@ class _RoutineBuilderAddModifyRoutinePageState extends State<RoutineBuilderAddMo
                 ),
                 expandedInsets: EdgeInsets.zero,
                 label: const Text(
-                  "Time",
+                  "Type",
                   style: TextStyle(color: Colors.black),
                 ),
                 initialSelection: RoutineType.misc,
@@ -219,35 +234,106 @@ class _RoutineBuilderAddModifyRoutinePageState extends State<RoutineBuilderAddMo
                 ),
               ),
               const SizedBox(height: 20.0),
-              InputDecorator(
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  label: Text(
-                    "Time",
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ),
-                child: ListTile(
-                  minTileHeight: 30,
-                  minVerticalPadding: 0,
-                  contentPadding: EdgeInsets.zero,
-                  horizontalTitleGap: 10,
-                  title: const Text("--:--"),
-                  leading: IconButton(
-                    onPressed: () async {
-                      showDialog(
-                        context: context,
-                        builder: (context) => TimePickerDialog(
-                          initialTime: TimeOfDay.now(),    
+              Wrap(
+                spacing: 20,
+                runSpacing: 20,
+                children: [
+                  IntrinsicWidth(
+                    stepWidth: 180,
+                    child: GestureDetector(
+                      onTap: () async {
+                        TimeOfDay? selected = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay.now(),
+                        );
+                        setState(() {
+                          if (selected != null) {
+                            startTime = selected.format(context);
+                            isErrorOnStartTime = false;
+                          }
+                        });
+                      },
+                      child: InputDecorator(
+                        expands: false,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.fromLTRB(12, 24, 12, 16),
+                          border: const OutlineInputBorder(),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.red.shade900,
+                              width: 1,
+                            ),
+                          ),
+                          errorText: isErrorOnStartTime ? "Select the start time" : null,
+                          label: const Text(
+                            "Start Time",
+                            style: TextStyle(color: Colors.black),
+                          ),
                         ),
-                      );
-                    },
-                    icon: const Icon(
-                      Icons.watch_later,
-                      color: Colors.indigo,
+                        child: Row(
+                          children: [
+                            const Icon(Icons.watch_later),
+                            const SizedBox(width: 10),
+                            Text(
+                              startTime,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: startTime == '--:--' ? Colors.black54 : Colors.black
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  IntrinsicWidth(
+                    stepWidth: 180,
+                    child: GestureDetector(
+                      onTap: () async {
+                        TimeOfDay? selected = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay.now(),
+                        );
+                        setState(() {
+                          if (selected != null) {
+                            endTime = selected.format(context);
+                            isErrorOnEndTime = false;
+                          }
+                        });
+                      },
+                      child: InputDecorator(
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.fromLTRB(12, 24, 12, 16),
+                          border: const OutlineInputBorder(),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.red.shade900,
+                              width: 1,
+                            ),
+                          ),
+                          errorText: isErrorOnEndTime ? "Select the end time" : null,
+                          label: const Text(
+                            "End Time",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.watch_later),
+                            const SizedBox(width: 10),
+                            Text(
+                              endTime,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: endTime == '--:--' ? Colors.black54 : Colors.black
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

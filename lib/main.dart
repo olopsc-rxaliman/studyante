@@ -7,6 +7,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await Hive.openBox(todoListBoxName);
+  await Hive.openBox(routineListBoxName);
   runApp(const StudyanteApp());
 }
 

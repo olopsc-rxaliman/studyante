@@ -1,5 +1,6 @@
 // Box Names
 const todoListBoxName = "todolist";
+const routineListBoxName = "routines";
 
 // Status Enumeration
 enum TaskStatus {
@@ -7,8 +8,6 @@ enum TaskStatus {
   active,
   done,
 }
-
-// Routine Type Enumeration
 enum RoutineType {
   misc,
   school,
