@@ -39,6 +39,7 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   animated_list_plus: ^0.5.2
+  keep_screen_on: ^3.0.0
 
 dev_dependencies:
   flutter_test:

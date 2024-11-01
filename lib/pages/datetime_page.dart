@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:intl/intl.dart";
+import "package:keep_screen_on/keep_screen_on.dart";
 
 class DateTimePage extends StatefulWidget {
   const DateTimePage({super.key});
@@ -21,6 +22,7 @@ class _DateTimePageState extends State<DateTimePage> {
       SystemUiMode.manual,
       overlays: []
     );
+    KeepScreenOn.turnOn();
   }
 
   @override
@@ -38,6 +40,7 @@ class _DateTimePageState extends State<DateTimePage> {
         SystemUiOverlay.bottom
       ]
     );
+    KeepScreenOn.turnOff();
     super.dispose();
   }
 
