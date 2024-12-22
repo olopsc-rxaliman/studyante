@@ -18,10 +18,7 @@ class _DateTimePageState extends State<DateTimePage> {
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.manual,
-      overlays: []
-    );
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     KeepScreenOn.turnOn();
   }
 
@@ -33,13 +30,8 @@ class _DateTimePageState extends State<DateTimePage> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.manual,
-      overlays: [
-        SystemUiOverlay.top,
-        SystemUiOverlay.bottom
-      ]
-    );
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
     KeepScreenOn.turnOff();
     super.dispose();
   }
@@ -51,56 +43,55 @@ class _DateTimePageState extends State<DateTimePage> {
     return Scaffold(
       backgroundColor: const Color(0xFF1C2120),
       body: StreamBuilder(
-        stream: Stream.periodic(const Duration(milliseconds: 100)),
-        builder: (context, snapshot) {
-          DateTime today = DateTime.now();
-          String weekDay = DateFormat("EEEE").format(today);
-          String date = DateFormat("MMMM d, y").format(today);
-          String time = DateFormat("jm").format(today);
-          String militaryTime = DateFormat("Hms").format(today);
+          stream: Stream.periodic(const Duration(milliseconds: 100)),
+          builder: (context, snapshot) {
+            DateTime today = DateTime.now();
+            String weekDay = DateFormat("EEEE").format(today);
+            String date = DateFormat("MMMM d, y").format(today);
+            String time = DateFormat("jm").format(today);
+            String militaryTime = DateFormat("Hms").format(today);
 
-          return Center(
-            child: IntrinsicWidth(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        weekDay,
+            return Center(
+              child: IntrinsicWidth(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          weekDay,
+                          style: const TextStyle(
+                            fontSize: 25,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          date,
+                          style: const TextStyle(
+                            fontSize: 25,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        displayMilitaryTime = !displayMilitaryTime;
+                      },
+                      child: Text(
+                        displayMilitaryTime ? militaryTime : time,
                         style: const TextStyle(
-                          fontSize: 25,
+                          fontSize: 140,
                           color: Colors.white,
                         ),
-                      ),
-                      Text(
-                        date,
-                        style: const TextStyle(
-                          fontSize: 25,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      displayMilitaryTime = !displayMilitaryTime;
-                    },
-                    child: Text(
-                      displayMilitaryTime ? militaryTime : time,
-                      style: const TextStyle(
-                        fontSize: 140,
-                        color: Colors.white,
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          );
-        }
-      ),
+            );
+          }),
     );
   }
 }
