@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import "package:studyante/components/base_alertdialog.dart";
-import "package:studyante/hive/hive_todolist_functions.dart";
+import "package:studyante/services/hive/hive_todolist_functions.dart";
 
 class ToDoListAddModifyTaskPage extends StatelessWidget {
   final Function() onSubmit;

@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
-import "package:studyante/hive/hive_constants.dart";
-import "package:studyante/hive/hive_routinebuilder_functions.dart";
+import "package:studyante/services/hive/hive_constants.dart";
+import "package:studyante/services/hive/hive_routinebuilder_functions.dart";
 
 class RoutineBuilderAddModifyRoutinePage extends StatefulWidget {
   final Map? routine;

@@ -7,6 +7,8 @@ final List<String> memaQuotes = [
   "Kakayanin mo 'to! Ikaw pa?",
   "Keri pa ba today? Keri yan!",
   "Go lang nang go, besh!",
+  "Nawa'y sumakses ang iyong efforts",
+  "\"A person who thinks all the time has nothing to think about except thoughts.\" (Alan Watts)",
 ];
 
 class MemaQuoteWidget extends StatelessWidget {
@@ -16,6 +18,7 @@ class MemaQuoteWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseWidget(
       backgroundColor: Colors.deepOrange,
+      title: "Memaquote",
       child: Row(
         children: [
           const Icon(
@@ -23,10 +26,12 @@ class MemaQuoteWidget extends StatelessWidget {
             color: Colors.white,
           ),
           const SizedBox(width: 5),
-          Text(
-            memaQuotes[Random().nextInt(memaQuotes.length)],
-            style: const TextStyle(
-              color: Colors.white,
+          Expanded(
+            child: Text(
+              memaQuotes[Random().nextInt(memaQuotes.length)],
+              style: const TextStyle(
+                color: Colors.white,
+              ),
             ),
           ),
         ],

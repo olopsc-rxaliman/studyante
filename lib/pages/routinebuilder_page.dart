@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:intl/intl.dart";
 import "package:studyante/components/routinebuilder/routinebuilder_add_modify_routine.dart";
 import "package:studyante/components/routinebuilder/routinebuilder_tabview.dart";
-import "package:studyante/hive/hive_routinebuilder_functions.dart";
+import "package:studyante/services/hive/hive_routinebuilder_functions.dart";
 
 class RoutineBuilderPage extends StatefulWidget {
   const RoutineBuilderPage({super.key});

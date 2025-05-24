@@ -4,6 +4,7 @@ import "package:studyante/components/expensestracker/expensestracker_widget.dart
 import "package:studyante/components/journotes/journotes_widget.dart";
 import "package:studyante/components/memaquote/memaquote_widget.dart";
 import "package:studyante/components/routinebuilder/routinebuilder_widget.dart";
+import "package:studyante/components/shoppinglist/shoppinglist_widget.dart";
 import "package:studyante/components/todolist/todolist_widget.dart";
 
 class HomePage extends StatelessWidget {
@@ -34,6 +35,7 @@ class HomePage extends StatelessWidget {
             widgetColor: Colors.amber,
             navigateOnClick: true,
           ),
+          ShoppinglistWidget(),
           RoutineBuilderWidget(),
           ExpensesTrackerWidget(),
           JournotesWidget(),
