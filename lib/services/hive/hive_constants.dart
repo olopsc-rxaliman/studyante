@@ -2,6 +2,7 @@
 const todoListBoxName = "todolist";
 const routineListBoxName = "routines";
 const shoppingListBoxName = "shoppinglist";
+const expensesBoxName = "expenses";
 
 // Status Enumeration
 enum TaskStatus {

@@ -1,4 +1,4 @@
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive_ce_flutter/hive_ce_flutter.dart';
 import 'package:studyante/services/hive/hive_constants.dart';
 
 class ShoppingListHiveFunctions {

@@ -1,4 +1,4 @@
-import "package:hive_flutter/hive_flutter.dart";
+import "package:hive_ce_flutter/hive_ce_flutter.dart";
 import "package:studyante/services/hive/hive_constants.dart";
 
 class RoutineBuilderHiveFunctions {
@@ -11,30 +11,34 @@ class RoutineBuilderHiveFunctions {
     required Map scheduleEvery,
     required String startTime,
     required String endTime,
-  }) => routineBuilderBox.add({
-    'name': name,
-    'type': type,
-    'scheduleEvery': scheduleEvery,
-    'startTime': startTime,
-    'endTime': endTime,
-  });
+  }) =>
+      routineBuilderBox.add({
+        'name': name,
+        'type': type,
+        'scheduleEvery': scheduleEvery,
+        'startTime': startTime,
+        'endTime': endTime,
+      });
 
   // Retrieve
   static List getAllRoutines() => routineBuilderBox.keys.map((key) {
-    final data = routineBuilderBox.get(key);
-    return {
-      ...data,
-      'key': key,
-    };
-  }).toList();
+        final data = routineBuilderBox.get(key);
+        return {
+          ...data,
+          'key': key,
+        };
+      }).toList();
   static List getRoutinesFrom({
     required String dayOfWeek,
-  }) => routineBuilderBox.keys.where(
-    (key) => routineBuilderBox.get(key)['scheduleEvery'][dayOfWeek] == true
-  ).toList();
+  }) =>
+      routineBuilderBox.keys
+          .where((key) =>
+              routineBuilderBox.get(key)['scheduleEvery'][dayOfWeek] == true)
+          .toList();
 
   // Update
 
   // Delete
-  static Future<void> deleteAllRoutines() => routineBuilderBox.deleteAll(routineBuilderBox.keys);
+  static Future<void> deleteAllRoutines() =>
+      routineBuilderBox.deleteAll(routineBuilderBox.keys);
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive_ce_flutter/adapters.dart';
 import 'package:studyante/services/hive/hive_constants.dart';
 import 'package:studyante/pages/home_page.dart';
 
@@ -9,6 +9,7 @@ void main() async {
   await Hive.openBox(todoListBoxName);
   await Hive.openBox(routineListBoxName);
   await Hive.openBox(shoppingListBoxName);
+  await Hive.openBox(expensesBoxName);
   runApp(const StudyanteApp());
 }
 
